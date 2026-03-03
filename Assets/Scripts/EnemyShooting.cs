@@ -1,32 +1,39 @@
-using UnityEditor;
+using System.Threading;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerShooting : MonoBehaviour
+public class EnemyShooting : MonoBehaviour
 {
-    
-    PlayerMovement pm;
+    EnemyMovement em;
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] GameObject Firepoint;
     [SerializeField] float bulletSpeed = 10f;
+    float coolDown;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if (pm == null)
-            pm = GetComponent<PlayerMovement>();
+        if (em == null)
+            em = GetComponent<EnemyMovement>();
 
-       
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-        if (Input.GetKeyUp(KeyCode.C))
-        {
-            Shoot();
 
-           // instantite bullet prefab at spesific direction depending on dir.
+        if (em.seesPlayer)
+        {
+            if (coolDown < 0)
+            {
+                Shoot();
+                coolDown = 2;
+
+            }
+            else { coolDown -= Time.deltaTime;}
+
+            // instantite bullet prefab at spesific direction depending on dir.
         }
     }
     void Shoot()
@@ -35,6 +42,6 @@ public class PlayerShooting : MonoBehaviour
 
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
 
-        rb.linearVelocity = new Vector2(pm.facingDirX * bulletSpeed, 0f);
+        rb.linearVelocity = new Vector2(em.facingDirX * bulletSpeed, 0f);
     }
 }
