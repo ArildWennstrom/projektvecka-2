@@ -1,9 +1,8 @@
 using UnityEngine;
 
-public class PlayerHealthManager : MonoBehaviour
+public class EnemyCollisionDetect : MonoBehaviour
 {
-    
-    [SerializeField] GameManager gm;
+    [SerializeField]EnemyManager em;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -19,12 +18,7 @@ public class PlayerHealthManager : MonoBehaviour
     {
         if (collision.CompareTag("Bullet"))
         {
-            gm.TakeDamage(2);
-        }
-        if (collision.CompareTag("HitZone"))
-        {
-            gm.TakeDamage(1);
+            em.TakeDamage(1);
         }
     }
-    
-}
+    }

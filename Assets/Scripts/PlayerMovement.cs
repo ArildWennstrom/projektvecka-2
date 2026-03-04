@@ -79,4 +79,9 @@ public class PlayerMovement : MonoBehaviour
             facingDirX = -1;
         }
     }
+   public void Bounce()
+    {
+        rb.linearVelocityY = jumpForce;
+
+    }
 }

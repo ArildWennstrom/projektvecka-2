@@ -1,8 +1,9 @@
 using UnityEngine;
 
-public class GroundCheck : MonoBehaviour
+public class PlayerCollisionDetect : MonoBehaviour
 {
     PlayerMovement pm;
+    [SerializeField] GameManager gm;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -20,6 +21,11 @@ public class GroundCheck : MonoBehaviour
         {
             pm.isGrounded = true;
         }
+        if (collision.CompareTag("WeakSpot"))
+        {
+            pm.isGrounded = true;
+            pm.Bounce();
+        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -27,5 +33,19 @@ public class GroundCheck : MonoBehaviour
         {
             pm.isGrounded = false;
         }
+        if (collision.CompareTag("WeakSpot"))
+        {
+            pm.isGrounded = false;
+          
+
+        }
     }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Bullet"))
+        {
+            gm.TakeDamage(1);
+        }
+    }
+
 }

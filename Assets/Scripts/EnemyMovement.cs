@@ -10,8 +10,8 @@ public class EnemyMovement : MonoBehaviour
     float passiveViewDistanse = 6;
     float aggressiveViewDistanse = 8;
     float roamDistanse = 3;
-    float walkSpeed = 1;
-    float runSpeed = 3;
+   [SerializeField] float walkSpeed = 1;
+   [SerializeField] float runSpeed = 3;
     float roamDirection = 1;
 
     public int facingDirX = 1;
