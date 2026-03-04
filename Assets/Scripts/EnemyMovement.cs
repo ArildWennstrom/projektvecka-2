@@ -33,10 +33,6 @@ public class EnemyMovement : MonoBehaviour
         LookForPlayer();
         enemywalk();
         TurnEnemy();
-        if (seesPlayer == true)
-        {
-            print("I se u muterfuker");
-        }
     }
 
     void EnemyPassiveWalk ()

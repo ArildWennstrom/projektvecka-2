@@ -5,7 +5,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] PlayerMovement pm;
     int playerMaxHealth = 5;
     int playerHealth = 5;
-    int Score = 0;
+    int score = 0;
+    int highScore;
     Vector3 spawnpoint;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -21,7 +22,7 @@ public class GameManager : MonoBehaviour
         // Pause med ESC
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Pause();
+            Restart();
         }
 
         
@@ -29,29 +30,27 @@ public class GameManager : MonoBehaviour
 
    public void Restart()
     {
-        transform.position = spawnpoint;
+        pm.transform.position = spawnpoint;
         playerHealth = playerMaxHealth;
-
+        if (score > highScore) { highScore = score; }
+        score = 0;
+     
 
     }
-    void TakeDamage(int damage)
+    public void TakeDamage(int damage)
     {
         playerHealth -= damage;
         if (playerHealth < 1) { Restart(); }
+        print(playerHealth);
     }
-    void AddScore(int scoreAddAmount)
+    public void AddScore(int scoreAddAmount)
     {
-        Score += scoreAddAmount;
+        score += scoreAddAmount;
+      
     }
-    void calcHealth()
-    {
+   
 
-    }
-
-    void Pause()
-    {
-
-    }
+   
    
     void Poäng()
     {
