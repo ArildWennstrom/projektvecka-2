@@ -12,6 +12,7 @@ TagManager:
   - WeakSpot
   - HittingEnemy
   - ShootingEnemy
+  - Portal
   layers:
   - Default
   - TransparentFX
