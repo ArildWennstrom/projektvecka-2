@@ -1,87 +1,90 @@
-using NUnit.Framework.Constraints;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public float dirX;
-    [SerializeField] Rigidbody2D rb;
-    float speed = 5;
-    float crouchSpeed = 2;
-    float jumpForce = 5;
-    bool jumpPressed = false;
-    // facingdirections: 1 = vänster, 2 = höger, 3 = ned, 4 = upp
-    public int facingDirX = 1;
-    public bool isGrounded = false;
-    public bool isCrouching = true;
+    [Header("Movement Settings")]
+    public float moveSpeed = 7f;
+    public float crouchSpeed = 3f;
+    public float jumpForce = 8f;
 
+    [Header("Ground Check")]
+    public Transform groundCheck;
+    public float groundCheckRadius = 0.2f;
+    public LayerMask groundLayer;
+
+    private Rigidbody2D rb;
+    private float moveInput;
+    private bool isGrounded;
+    private bool isCrouching;
 
     void Start()
     {
-
+        rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        CheckForJumping();
-        CheckForCrouching();
-        dirX = Input.GetAxisRaw("Horizontal");
-        TurnPlayer();
+        Move();
+        Jump();
+        Crouch();
+        Flip();
+    }
 
-        if (isCrouching) { rb.linearVelocity = new Vector2(dirX * crouchSpeed, rb.linearVelocity.y); }
-        else { rb.linearVelocity = new Vector2(dirX * speed, rb.linearVelocity.y);  }
-           
-    }
-    void CheckForCrouching()
+    void Move()
     {
-        if (Input.GetKeyDown(KeyCode.LeftControl))
-        {
-            isCrouching = true;
-            transform.localScale = new Vector3(1, 0.4f, 1);
-        }
-        if (Input.GetKeyUp(KeyCode.LeftControl))
-        {
-            isCrouching = false;
-            transform.localScale = new Vector3(1, 1, 1);
-        }
-    }
-    void CheckForJumping()
-    {
-        if (jumpPressed == false && Input.GetKeyDown(KeyCode.Space))
-        {
-            jumpPressed = true;
-            Jump();
-        }
+        moveInput = Input.GetAxisRaw("Horizontal");
+
+        float currentSpeed = isCrouching ? crouchSpeed : moveSpeed;
+
+        rb.linearVelocity = new Vector2(moveInput * currentSpeed, rb.linearVelocity.y);
     }
 
     void Jump()
     {
-        if (jumpPressed && isGrounded)
-        {
+        // Kollar om vi är på marken med Circle check
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
 
-            rb.linearVelocityY = jumpForce;
-            jumpPressed = false;
-            
-        }
-        else { jumpPressed = false; }
-    }
-    void TurnPlayer()
-    {
-        if (dirX > 0)
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
-            transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z); // höger
-            facingDirX = 1;
-        }
-        else if (dirX < 0)
-        {
-            transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z); // vänster
-            facingDirX = -1;
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         }
     }
-   public void Bounce()
-    {
-        rb.linearVelocityY = jumpForce;
 
+    void Crouch()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            isCrouching = true;
+            transform.localScale = new Vector3(transform.localScale.x, 0.5f, 1);
+        }
+
+        if (Input.GetKeyUp(KeyCode.LeftControl))
+        {
+            isCrouching = false;
+            transform.localScale = new Vector3(transform.localScale.x, 1f, 1);
+        }
+    }
+
+    void Flip()
+    {
+        if (moveInput > 0)
+            transform.localScale = new Vector3(1, transform.localScale.y, 1);
+        else if (moveInput < 0)
+            transform.localScale = new Vector3(-1, transform.localScale.y, 1);
+    }
+
+    public void Bounce(float bounceForce)
+    {
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, bounceForce);
+    }
+
+    // Visar groundCheck i editor
+    void OnDrawGizmosSelected()
+    {
+        if (groundCheck != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+        }
     }
 }
