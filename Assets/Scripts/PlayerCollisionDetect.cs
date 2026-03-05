@@ -17,29 +17,14 @@ public class PlayerCollisionDetect : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Ground"))
-        {
-            pm.isGrounded = true;
-        }
+      
         if (collision.CompareTag("WeakSpot"))
         {
-            pm.isGrounded = true;
+          
             pm.Bounce();
         }
     }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Ground"))
-        {
-            pm.isGrounded = false;
-        }
-        if (collision.CompareTag("WeakSpot"))
-        {
-            pm.isGrounded = false;
-          
-
-        }
-    }
+   
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.collider.CompareTag("Bullet"))
