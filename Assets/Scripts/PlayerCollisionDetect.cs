@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-=======
+
 using UnityEngine;
 
 public class PlayerCollisionDetect : MonoBehaviour
@@ -36,4 +35,4 @@ public class PlayerCollisionDetect : MonoBehaviour
     }
 
 }
->>>>>>> 13c7ad672502f73e47f2971d99d914e3763c4fa4
+

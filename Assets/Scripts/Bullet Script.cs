@@ -9,6 +9,8 @@ public class BulletScript : MonoBehaviour
     void Start()
     {
         
+
+
        rb = GetComponent<Rigidbody2D>();
         rb.linearVelocityY = velUp;
     }
