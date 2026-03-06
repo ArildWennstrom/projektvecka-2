@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 7f;
     public float crouchSpeed = 3f;
     public float jumpForce = 8f;
+    public int facingDirX = 1;
 
     [Header("Ground Check")]
     public Transform groundCheck;
@@ -14,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D rb;
     private float moveInput;
-    private bool isGrounded;
+    public bool isGrounded;
     private bool isCrouching;
 
     void Start()
@@ -24,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        GroundCheck();
         Move();
         Jump();
         Crouch();
@@ -32,23 +34,35 @@ public class PlayerMovement : MonoBehaviour
 
     void Move()
     {
-        moveInput = Input.GetAxisRaw("Horizontal");
+        moveInput = Input.GetAxisRaw("Horizontal"); 
+        if (moveInput == -1) { facingDirX = -1; }
+        else if (moveInput == 1) { facingDirX = 1; }
 
-        float currentSpeed = isCrouching ? crouchSpeed : moveSpeed;
+            float currentSpeed = isCrouching ? crouchSpeed : moveSpeed;
 
         rb.linearVelocity = new Vector2(moveInput * currentSpeed, rb.linearVelocity.y);
     }
-
-    void Jump()
+    void GroundCheck()
     {
         // Kollar om vi är på marken med Circle check
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        if (groundCheck == null)
+        {
+            Debug.Log("GROUND CHECK NOT ASSIGNED");
+            
+        }
+    }
+     void Jump()
+    {
+        
 
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         }
     }
+
+    
 
     void Crouch()
     {
@@ -73,9 +87,9 @@ public class PlayerMovement : MonoBehaviour
             transform.localScale = new Vector3(-1, transform.localScale.y, 1);
     }
 
-    public void Bounce(float bounceForce)
+    public void Bounce()
     {
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, bounceForce);
+        rb.linearVelocityY = jumpForce;
     }
 
     // Visar groundCheck i editor

@@ -18,4 +18,16 @@ public class BulletScript : MonoBehaviour
     {
         rb.linearVelocityY -=gravity*Time.deltaTime;
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.CompareTag("Ground") || collision.CompareTag("ShootingEnemy"))
+            {
+            Destroy(gameObject);
+        }
+        if(collision.CompareTag("HittingEnemy"))
+            {
+            rb.linearVelocityX *= -1;
+        }
+    }
 }

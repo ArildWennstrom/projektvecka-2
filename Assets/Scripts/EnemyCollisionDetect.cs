@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyCollisionDetect : MonoBehaviour
 {
-    [SerializeField]EnemyManager em;
+    [SerializeField] EnemyManager em;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
