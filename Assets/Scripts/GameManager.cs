@@ -34,8 +34,10 @@ public class GameManager : MonoBehaviour
         playerHealth = playerMaxHealth;
         if (score > highScore) { highScore = score; }
         score = 0;
-     
-
+    }
+    public void Respawn()
+    {
+        pm.transform.position = spawnpoint;
     }
     public void TakeDamage(int damage)
     {

@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -13,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     public float groundCheckRadius = 0.2f;
     public LayerMask groundLayer;
 
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
     private float moveInput;
     public bool isGrounded;
     private bool isCrouching;
@@ -25,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+     
         GroundCheck();
         Move();
         Jump();
