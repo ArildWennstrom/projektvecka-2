@@ -35,6 +35,6 @@ public class PlayerShooting : MonoBehaviour
 
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
 
-        rb.linearVelocity = new Vector2(pm.facingDirX * bulletSpeed, 0f);
+       
     }
 }
