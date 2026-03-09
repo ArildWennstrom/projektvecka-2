@@ -3,6 +3,7 @@ using UnityEngine;
 public class EnemyCollisionDetect : MonoBehaviour
 {
     [SerializeField] EnemyManager em;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -19,6 +20,7 @@ public class EnemyCollisionDetect : MonoBehaviour
         if (collision.CompareTag("Bullet"))
         {
             em.TakeDamage(1);
+            
         }
     }
     }

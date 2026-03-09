@@ -1,13 +1,18 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class EnemyManager : MonoBehaviour
 {
+    [SerializeField] AudioClip HitSound;
+    AudioSource audioSource;
+
     [SerializeField] int enemyMaxHealth = 5;
     int enemyHealth;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         enemyHealth = enemyMaxHealth;
     }
 
@@ -20,6 +25,11 @@ public class EnemyManager : MonoBehaviour
     {
         enemyHealth -= damageAmount;
         print(enemyHealth);
+        if (HitSound != null)
+        {
+            audioSource.PlayOneShot(HitSound);
+        }
+
         if (enemyHealth < 1)
         {
             Destroy(gameObject);

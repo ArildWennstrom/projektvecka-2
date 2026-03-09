@@ -5,20 +5,27 @@ public class BulletScript : MonoBehaviour
     float gravity = 10f;
     float velUp = 3;
     Rigidbody2D rb;
+    [SerializeField] AudioClip gunSound;
+    AudioSource audioSource;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        audioSource = GetComponent<AudioSource>();
+
+        if (gunSound != null)
+        {
+            audioSource.PlayOneShot(gunSound);
+        }
 
 
-       rb = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
         rb.linearVelocityY = velUp;
     }
 
     // Update is called once per frame
     void Update()
     {
-        rb.linearVelocityY -=gravity*Time.deltaTime;
+        rb.linearVelocityY -= gravity * Time.deltaTime;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
